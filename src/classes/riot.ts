@@ -1,11 +1,10 @@
+import type { MatchQueryV5DTO } from 'twisted/dist/models-dto/matches/query-v5';
 import type { AccountAPIRegionGroups } from 'twisted/dist/constants';
 import type { IBaseApiParams } from 'twisted/dist/base/base.utils';
 import type { RegionGroups } from 'twisted/dist/constants';
 import type { Regions } from 'twisted/dist/constants';
 
 import { RiotApi, LolApi } from 'twisted';
-
-import type { MatchQueryV5DTO } from '../../node_modules/twisted/dist/models-dto/matches/query-v5';
 
 const APIOptions: IBaseApiParams = {
     key: process.env.RIOT_KEY!,
