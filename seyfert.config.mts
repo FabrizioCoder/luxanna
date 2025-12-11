@@ -4,7 +4,9 @@ export default config.bot({
     token: process.env.BOT_TOKEN ?? '',
     locations: {
         base: 'src', // replace with "src" if using bun
-        commands: 'commands'
+        commands: 'commands',
+        events: 'events'
     },
-    intents: ['Guilds']
+    intents: ['Guilds'],
+    debug: true
 });

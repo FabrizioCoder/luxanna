@@ -1,20 +1,20 @@
 {
   "name": "luxanna",
-  "module": "index.ts",
+  "module": "./src/index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@marcrock22/eslint": "https://github.com/marcrock22/eslintcf",
+    "@types/bun": "latest",
+    "eslint": "^9.39.1",
+    "typescript-eslint": "^8.49.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@marcrock22/eslint": "https://github.com/marcrock22/eslintcf",
-    "eslint": "^9.39.1",
     "kysely": "^0.28.8",
     "seyfert": "^4.0.1-dev-20006088884.0",
-    "twisted": "^1.72.2",
-    "typescript-eslint": "^8.49.0"
+    "twisted": "^1.72.2"
   }
 }
