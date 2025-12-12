@@ -34,8 +34,6 @@ export class Riot extends LolApi {
     }
 
     makeProfileIconUrl(profileIconId: number) {
-        // https://ddragon.leagueoflegends.com/cdn/15.24.1/img/profileicon/588.png
-        console.log(this.#version);
         return `https://ddragon.leagueoflegends.com/cdn/${this.#version}/img/profileicon/${profileIconId}.png`;
     }
 
