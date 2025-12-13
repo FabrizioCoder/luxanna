@@ -6,13 +6,13 @@
       "name": "luxanna",
       "dependencies": {
         "kysely": "^0.28.8",
-        "seyfert": "^4.0.1-dev-20006088884.0",
+        "seyfert": "^4.0.1-dev-20179130059.0",
         "twisted": "^1.72.2",
       },
       "devDependencies": {
+        "@marcrock22/eslint": "https://github.com/marcrock22/eslintcf",
         "@types/bun": "latest",
         "eslint": "^9.39.1",
-        "@marcrock22/eslint": "https://github.com/marcrock22/eslintcf",
         "typescript-eslint": "^8.49.0",
       },
       "peerDependencies": {
@@ -267,7 +267,7 @@
 
     "semver": ["semver@7.7.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q=="],
 
-    "seyfert": ["seyfert@4.0.1-dev-20006088884.0", "", {}, "sha512-rRF+9B90EaCoQcZ5s1n32DfeafMUjtw+eeeibSaOmIVYeHtUtVudw5c6c1p8CrnN7LnVzVYUCzCRlCBHU+iUBg=="],
+    "seyfert": ["seyfert@4.0.1-dev-20179130059.0", "", {}, "sha512-t63vfhYwlmhNcpQ9L0HACIT8RnUHh1EjCEEDJFLSKkIGWxjF7o7IOKcbfzm2XwK5AyRySUhai0QkDZ5MN2ixCg=="],
 
     "shebang-command": ["shebang-command@2.0.0", "", { "dependencies": { "shebang-regex": "^3.0.0" } }, "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA=="],
 

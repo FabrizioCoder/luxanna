@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "kysely": "^0.28.8",
-    "seyfert": "^4.0.1-dev-20006088884.0",
+    "seyfert": "^4.0.1-dev-20179130059.0",
     "twisted": "^1.72.2"
   }
 }
