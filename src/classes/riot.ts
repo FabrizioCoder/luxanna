@@ -5,6 +5,8 @@ import type { RegionGroups, Games } from 'twisted/dist/constants';
 import type { Regions } from 'twisted/dist/constants';
 
 import { RiotApi, LolApi } from 'twisted';
+import { z } from 'zod';
+
 
 const APIOptions: IBaseApiParams = {
     key: process.env.RIOT_KEY!,
@@ -19,6 +21,12 @@ const APIOptions: IBaseApiParams = {
 if (!APIOptions.key) {
     throw new Error('Riot API key is not set in environment variables (RIOT_KEY)');
 }
+
+export const ChampionRotationResultSchema = z.object({
+    freeChampionIds: z.array(z.number()),
+    freeChampionIdsForNewPlayers: z.array(z.number()),
+    maxNewPlayerLevel: z.number()
+});
 
 export class Riot extends LolApi {
     readonly riot = new RiotApi(APIOptions);
@@ -119,9 +127,8 @@ export class Riot extends LolApi {
     }
 
     // Get champion rotations
-    // .TODO: use zod schema for response
     async getChampionRotations(region: Regions) {
         const { response } = await this.Champion.rotation(region);
-        return response;
+        return ChampionRotationResultSchema.parse(response);
     }
 }
