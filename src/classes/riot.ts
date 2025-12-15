@@ -1,7 +1,7 @@
 import type { MatchQueryV5DTO } from 'twisted/dist/models-dto/matches/query-v5';
 import type { AccountAPIRegionGroups } from 'twisted/dist/constants';
 import type { IBaseApiParams } from 'twisted/dist/base/base.utils';
-import type { RegionGroups } from 'twisted/dist/constants';
+import type { RegionGroups, Games } from 'twisted/dist/constants';
 import type { Regions } from 'twisted/dist/constants';
 
 import { RiotApi, LolApi } from 'twisted';
@@ -38,16 +38,90 @@ export class Riot extends LolApi {
     }
 
     // Get a summoner's data by their PUUID
-    getSummonerByPUUID(puuid: string, region: Regions) {
-        return this.Summoner.getByPUUID(puuid, region);
+    async getSummonerByPUUID(puuid: string, region: Regions) {
+        const { response } = await this.Summoner.getByPUUID(puuid, region);
+        return response;
+    }
+
+    // Get a player's account by puuid
+    async getPlayerAccountByPUUID(puuid: string, region: AccountAPIRegionGroups) {
+        const { response } = await this.riot.Account.getByPUUID(puuid, region);
+        return response;
     }
 
     // Get a player's account by their Riot ID (name and tag line)
-    getPlayerAccount(name: string, tagLine: string, region: AccountAPIRegionGroups) {
-        return this.riot.Account.getByRiotId(name, tagLine, region);
+    async getPlayerAccountByRiotId(name: string, tagLine: string, region: AccountAPIRegionGroups) {
+        const { response } = await this.riot.Account.getByRiotId(name, tagLine, region);
+        return response;
     }
 
-    getMatchHistory(puuid: string, region: RegionGroups, query?: MatchQueryV5DTO) {
-        return this.MatchV5.list(puuid, region, query);
+    // Get a player's account by puuid
+    async getPlayerAccountActiveRegion(puuid: string, game: Games, region: AccountAPIRegionGroups) {
+        const { response } = await this.riot.Account.getActiveRegion(puuid, game, region);
+        return response;
+    }
+
+    // Get a player's match history by their PUUID
+    async getMatchHistory(puuid: string, region: RegionGroups, query?: MatchQueryV5DTO) {
+        const { response } = await this.MatchV5.list(puuid, region, query);
+        return response;
+    }
+
+    // Get a specific match by its ID
+    async getMatchById(matchId: string, region: RegionGroups) {
+        const { response } = await this.MatchV5.get(matchId, region);
+        return response;
+    }
+
+    // Get timeline of a specific match by its ID
+    async getMatchTimeline(matchId: string, region: RegionGroups) {
+        const { response } = await this.MatchV5.timeline(matchId, region);
+        return response;
+    }
+
+    // Get active game by a player's PUUID
+    async getActiveGameByPUUID(puuid: string, region: Regions) {
+        const result = await this.SpectatorV5.activeGame(puuid, region);
+        if ('message' in result) {
+            throw new Error(`Error fetching active game: ${result.message}`);
+        }
+        return result.response;
+    }
+
+    // Get featured games in a specific region
+    async getFeaturedGames(region: Regions) {
+        const { response } = await this.SpectatorV5.featuredGames(region);
+        return response;
+    }
+
+    // Get the current status of Riot services in a specific region
+    async getRiotStatus(region: Regions) {
+        const { response } = await this.StatusV4.get(region);
+        return response;
+    }
+
+    // Get champion masteries by PUUID
+    async getChampionMasteriesByPUUID(puuid: string, region: Regions) {
+        const { response } = await this.Champion.masteryByPUUID(puuid, region);
+        return response;
+    }
+
+    // Get champion mastery score by PUUID
+    async getChampionMasteryScoreByPUUID(puuid: string, championId: number, region: Regions) {
+        const { response } = await this.Champion.masteryByPUUIDChampion(puuid, championId, region);
+        return response;
+    }
+
+    // Get champions score by PUUID
+    async getChampionsScoreByPUUID(puuid: string, region: Regions) {
+        const result = await this.Champion.championsScore(puuid, region);
+        return result;
+    }
+
+    // Get champion rotations
+    // .TODO: use zod schema for response
+    async getChampionRotations(region: Regions) {
+        const { response } = await this.Champion.rotation(region);
+        return response;
     }
 }
