@@ -1,11 +1,11 @@
 import type { MatchQueryV5DTO } from 'twisted/dist/models-dto/matches/query-v5';
-import type { AccountAPIRegionGroups } from 'twisted/dist/constants';
 import type { IBaseApiParams } from 'twisted/dist/base/base.utils';
-import type { RegionGroups, Games } from 'twisted/dist/constants';
-import type { Regions } from 'twisted/dist/constants';
+import type { Regions, Games } from 'twisted/dist/constants';
 
+import { regionToRegionGroupForAccountAPI, regionToRegionGroup } from 'twisted/dist/constants/regions';
 import { RiotApi, LolApi } from 'twisted';
-import { z } from 'zod';
+
+import { ChampionRotationResultSchema } from './schemas';
 
 
 const APIOptions: IBaseApiParams = {
@@ -21,12 +21,6 @@ const APIOptions: IBaseApiParams = {
 if (!APIOptions.key) {
     throw new Error('Riot API key is not set in environment variables (RIOT_KEY)');
 }
-
-export const ChampionRotationResultSchema = z.object({
-    freeChampionIds: z.array(z.number()),
-    freeChampionIdsForNewPlayers: z.array(z.number()),
-    maxNewPlayerLevel: z.number()
-});
 
 export class Riot extends LolApi {
     readonly riot = new RiotApi(APIOptions);
@@ -52,38 +46,38 @@ export class Riot extends LolApi {
     }
 
     // Get a player's account by puuid
-    async getPlayerAccountByPUUID(puuid: string, region: AccountAPIRegionGroups) {
-        const { response } = await this.riot.Account.getByPUUID(puuid, region);
+    async getPlayerAccountByPUUID(puuid: string, region: Regions) {
+        const { response } = await this.riot.Account.getByPUUID(puuid, regionToRegionGroupForAccountAPI(region));
         return response;
     }
 
     // Get a player's account by their Riot ID (name and tag line)
-    async getPlayerAccountByRiotId(name: string, tagLine: string, region: AccountAPIRegionGroups) {
-        const { response } = await this.riot.Account.getByRiotId(name, tagLine, region);
+    async getPlayerAccountByRiotId(name: string, tagLine: string, region: Regions) {
+        const { response } = await this.riot.Account.getByRiotId(name, tagLine, regionToRegionGroupForAccountAPI(region));
         return response;
     }
 
     // Get a player's account by puuid
-    async getPlayerAccountActiveRegion(puuid: string, game: Games, region: AccountAPIRegionGroups) {
-        const { response } = await this.riot.Account.getActiveRegion(puuid, game, region);
+    async getPlayerAccountActiveRegion(puuid: string, game: Games, region: Regions) {
+        const { response } = await this.riot.Account.getActiveRegion(puuid, game, regionToRegionGroupForAccountAPI(region));
         return response;
     }
 
     // Get a player's match history by their PUUID
-    async getMatchHistory(puuid: string, region: RegionGroups, query?: MatchQueryV5DTO) {
-        const { response } = await this.MatchV5.list(puuid, region, query);
+    async getMatchHistory(puuid: string, region: Regions, query?: MatchQueryV5DTO) {
+        const { response } = await this.MatchV5.list(puuid, regionToRegionGroup(region), query);
         return response;
     }
 
     // Get a specific match by its ID
-    async getMatchById(matchId: string, region: RegionGroups) {
-        const { response } = await this.MatchV5.get(matchId, region);
+    async getMatchById(matchId: string, region: Regions) {
+        const { response } = await this.MatchV5.get(matchId, regionToRegionGroup(region));
         return response;
     }
 
     // Get timeline of a specific match by its ID
-    async getMatchTimeline(matchId: string, region: RegionGroups) {
-        const { response } = await this.MatchV5.timeline(matchId, region);
+    async getMatchTimeline(matchId: string, region: Regions) {
+        const { response } = await this.MatchV5.timeline(matchId, regionToRegionGroup(region));
         return response;
     }
 
