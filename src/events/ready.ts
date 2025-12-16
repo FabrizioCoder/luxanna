@@ -5,8 +5,8 @@ export default createEvent({
     data: {
         name: 'ready'
     },
-    run: (_, client, shardID) => {
-        client.gateway.setShardPresence(shardID, {
+    run: (_, client, shardId) => {
+        client.gateway.setShardPresence(shardId, {
             activities: [{
                 type: ActivityType.Custom,
                 state: 'coming soon',
